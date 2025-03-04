@@ -45,11 +45,35 @@ h1 {
 }
 
 .cell.alive {
-    background-color: #83f005;
+    background-color: #000000;
 }
 
-/* 适应较小屏幕 */
+/* 适应不同屏幕尺寸 */
 @media screen and (max-width: 650px) {
+    #game-container {
+        grid-template-columns: repeat(100, 3px);
+        grid-template-rows: repeat(100, 3px);
+        width: 300px;
+        height: 300px;
+    }
+    
+    .cell {
+        width: 3px;
+        height: 3px;
+    }
+    
+    .controls, .pattern-buttons {
+        flex-direction: column;
+        gap: 5px;
+    }
+    
+    button {
+        width: 100%;
+        padding: 10px;
+    }
+}
+
+@media screen and (min-width: 651px) and (max-width: 800px) {
     #game-container {
         grid-template-columns: repeat(100, 4px);
         grid-template-rows: repeat(100, 4px);
@@ -60,21 +84,6 @@ h1 {
     .cell {
         width: 4px;
         height: 4px;
-    }
-}
-
-/* 添加响应式设计 */
-@media screen and (min-width: 768px) {
-    #game-container {
-        grid-template-columns: repeat(30, 16px); /* 在大屏幕上稍微增加单元格大小 */
-        grid-template-rows: repeat(30, 16px);
-        width: 510px; /* 30个格子*17px(16px宽度+1px间隔) */
-        height: 510px;
-    }
-    
-    .cell {
-        width: 16px;
-        height: 16px;
     }
 }
 
@@ -149,4 +158,11 @@ button:disabled {
 
 #glider-button:hover, #pulsar-button:hover {
     background-color: #0b7dda;
+}
+
+/* 添加性能指标样式 */
+.performance-info {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #666;
 }
