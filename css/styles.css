@@ -19,20 +19,25 @@ h1 {
 
 #game-container {
     display: grid;
-    grid-template-columns: repeat(30, 20px);
-    grid-template-rows: repeat(30, 20px);
-    gap: 1px;
+    grid-template-columns: repeat(100, 6px); /* 100列，每列6px宽 */
+    grid-template-rows: repeat(100, 6px); /* 100行，每行6px高 */
+    gap: 0px; /* 减小间隙以适应更多单元格 */
     background-color: #333;
     margin-bottom: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 600px; /* 100个格子*6px宽度 */
+    height: 600px; /* 100个格子*6px高度 */
+    border-radius: 4px;
+    overflow: hidden; /* 防止溢出 */
 }
 
 .cell {
-    width: 20px;
-    height: 20px;
+    width: 6px; /* 更小的单元格 */
+    height: 6px; /* 更小的单元格 */
     background-color: #fff;
     transition: background-color 0.1s;
     cursor: pointer;
+    border-radius: 0; /* 平整的单元格 */
 }
 
 .cell:hover {
@@ -43,8 +48,40 @@ h1 {
     background-color: #83f005;
 }
 
+/* 适应较小屏幕 */
+@media screen and (max-width: 650px) {
+    #game-container {
+        grid-template-columns: repeat(100, 4px);
+        grid-template-rows: repeat(100, 4px);
+        width: 400px;
+        height: 400px;
+    }
+    
+    .cell {
+        width: 4px;
+        height: 4px;
+    }
+}
+
+/* 添加响应式设计 */
+@media screen and (min-width: 768px) {
+    #game-container {
+        grid-template-columns: repeat(30, 16px); /* 在大屏幕上稍微增加单元格大小 */
+        grid-template-rows: repeat(30, 16px);
+        width: 510px; /* 30个格子*17px(16px宽度+1px间隔) */
+        height: 510px;
+    }
+    
+    .cell {
+        width: 16px;
+        height: 16px;
+    }
+}
+
 .controls {
     display: flex;
+    flex-wrap: wrap; /* 在小屏幕上允许按钮换行 */
+    justify-content: center;
     gap: 10px;
     margin-top: 10px;
 }
@@ -83,4 +120,33 @@ button:disabled {
     padding: 10px;
     background-color: #e7f3fe;
     border-left: 4px solid #2196F3;
+}
+
+/* 添加游戏区域容器以提供更好的布局 */
+.game-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    max-width: 100%;
+    overflow-x: auto;
+}
+
+/* 添加图案预设按钮样式 */
+.pattern-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+#glider-button, #pulsar-button {
+    background-color: #2196F3;
+}
+
+#glider-button:hover, #pulsar-button:hover {
+    background-color: #0b7dda;
 }

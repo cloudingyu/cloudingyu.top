@@ -3,25 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>康威生命游戏</title>
+    <title>康威生命游戏 (100×100)</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <h1>康威生命游戏</h1>
-    <div id="game-container"></div>
-    <div class="controls">
-        <button id="random-button">随机初始化</button>
-        <button id="start-button">开始游戏</button>
-        <button id="stop-button" disabled>停止游戏</button>
-        <button id="reset-button">重置</button>
+    <h1>康威生命游戏 (100×100)</h1>
+    
+    <div class="game-wrapper">
+        <div id="game-container"></div>
+        <div class="controls">
+            <button id="random-button">随机初始化</button>
+            <button id="start-button">开始游戏</button>
+            <button id="stop-button" disabled>停止游戏</button>
+            <button id="reset-button">重置</button>
+        </div>
+        <div class="pattern-buttons">
+            <button id="glider-button">滑翔机</button>
+            <button id="pulsar-button">脉冲星</button>
+        </div>
     </div>
+    
     <div class="instructions">
         <p>康威生命游戏规则：</p>
         <ul>
             <li>存活的细胞周围有2-3个存活的邻居时继续存活，否则死亡</li>
             <li>死亡的细胞周围恰好有3个存活的邻居时复活</li>
         </ul>
-        <p>点击网格可以切换细胞的生死状态</p>
+        <p>操作说明：</p>
+        <ul>
+            <li>点击网格可以切换细胞的生死状态</li>
+            <li>空格键：开始/停止游戏</li>
+            <li>R键：随机初始化</li>
+            <li>C键：重置网格</li>
+        </ul>
     </div>
     <script src="js/game.js"></script>
 </body>

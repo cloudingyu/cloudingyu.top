@@ -1,8 +1,10 @@
-// This file contains the core logic for Conway's Game of Life.
+// 将网格大小从 30*30 增加到 100*100
 
-const gridSize = 30; // Size of the grid (与 CSS 的30×30保持一致)
+const gridSize = 100; // 增加网格大小到 100*100
 let grid = [];
 let intervalId;
+let lastFrameTime = 0;
+const frameRate = 30; // 每秒更新次数
 
 // Initialize the game grid
 function initGame() {
@@ -11,8 +13,17 @@ function initGame() {
 }
 
 // Update the game state based on the rules of Conway's Game of Life
-function updateGame() {
-    const newGrid = grid.map(arr => [...arr]);
+function updateGame(timestamp) {
+    // 限制帧率以提高性能
+    if (timestamp - lastFrameTime < 1000 / frameRate) {
+        if (intervalId) {
+            requestAnimationFrame(updateGame);
+        }
+        return;
+    }
+    lastFrameTime = timestamp;
+    
+    const newGrid = Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
     
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
@@ -27,6 +38,10 @@ function updateGame() {
     
     grid = newGrid;
     renderGame();
+    
+    if (intervalId) {
+        requestAnimationFrame(updateGame);
+    }
 }
 
 // Count alive neighbors for a given cell
@@ -45,10 +60,12 @@ function countAliveNeighbors(x, y) {
     return count;
 }
 
-// Render the game grid to the webpage
+// 优化渲染函数，使用 DocumentFragment 来减少重排和重绘
 function renderGame() {
     const container = document.getElementById('game-container');
-    container.innerHTML = '';
+    container.innerHTML = ''; // 清空容器
+    
+    const fragment = document.createDocumentFragment();
     
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
@@ -60,9 +77,11 @@ function renderGame() {
             cellDiv.dataset.row = i;
             cellDiv.dataset.col = j;
             cellDiv.addEventListener('click', toggleCell);
-            container.appendChild(cellDiv);
+            fragment.appendChild(cellDiv);
         }
     }
+    
+    container.appendChild(fragment);
 }
 
 // Toggle the state of a cell
@@ -71,21 +90,23 @@ function toggleCell(event) {
     const col = parseInt(event.target.dataset.col);
     
     grid[row][col] = grid[row][col] === 1 ? 0 : 1;
-    renderGame();
+    
+    // 局部更新，不重新渲染整个网格
+    event.target.classList.toggle('alive');
 }
 
 // Start the game loop
 function startGame() {
     if (!intervalId) {
-        intervalId = setInterval(updateGame, 300); // 减慢速度便于观察
+        intervalId = true;
         document.getElementById('start-button').disabled = true;
         document.getElementById('stop-button').disabled = false;
+        requestAnimationFrame(updateGame);
     }
 }
 
 // Stop the game loop
 function stopGame() {
-    clearInterval(intervalId);
     intervalId = null;
     document.getElementById('start-button').disabled = false;
     document.getElementById('stop-button').disabled = true;
@@ -100,13 +121,36 @@ window.onload = () => {
     // 添加随机初始化功能
     document.getElementById('random-button').addEventListener('click', randomizeGrid);
     document.getElementById('reset-button').addEventListener('click', resetGrid);
+    
+    // 添加键盘快捷键
+    document.addEventListener('keydown', function(event) {
+        switch(event.key) {
+            case ' ': // 空格键开始/停止
+                if (intervalId) {
+                    stopGame();
+                } else {
+                    startGame();
+                }
+                break;
+            case 'r': // r键随机初始化
+                randomizeGrid();
+                break;
+            case 'c': // c键重置
+                resetGrid();
+                break;
+        }
+    });
+    
+    // 添加图案预设按钮事件监听
+    document.getElementById('glider-button').addEventListener('click', addGlider);
+    document.getElementById('pulsar-button').addEventListener('click', addPulsar);
 };
 
-// 随机初始化网格
+// 随机初始化网格 - 调整密度以适应更大的网格
 function randomizeGrid() {
     for (let i = 0; i < gridSize; i++) {
         for (let j = 0; j < gridSize; j++) {
-            grid[i][j] = Math.random() > 0.7 ? 1 : 0;
+            grid[i][j] = Math.random() > 0.85 ? 1 : 0; // 降低大网格的活细胞密度
         }
     }
     renderGame();
@@ -116,5 +160,51 @@ function randomizeGrid() {
 function resetGrid() {
     stopGame();
     grid = Array.from({ length: gridSize }, () => Array(gridSize).fill(0));
+    renderGame();
+}
+
+// 添加滑翔机图案
+function addGlider() {
+    resetGrid();
+    const centerX = Math.floor(gridSize / 2);
+    const centerY = Math.floor(gridSize / 2);
+    
+    // 滑翔机图案
+    grid[centerX][centerY] = 1;
+    grid[centerX + 1][centerY + 1] = 1;
+    grid[centerX + 1][centerY + 2] = 1;
+    grid[centerX][centerY + 2] = 1;
+    grid[centerX - 1][centerY + 2] = 1;
+    
+    renderGame();
+}
+
+// 添加脉冲星图案
+function addPulsar() {
+    resetGrid();
+    const centerX = Math.floor(gridSize / 2) - 6;
+    const centerY = Math.floor(gridSize / 2) - 6;
+    
+    // 脉冲星图案 (一个13周期的振荡器)
+    const pulsar = [
+        [2, 4, 5, 6, 10, 11, 12],
+        [4, 6, 10, 12],
+        [2, 7, 9, 14],
+        [0, 7, 9, 14, 16],
+        [0, 7, 9, 14, 16],
+        [0, 7, 9, 14, 16],
+        [2, 7, 9, 14],
+        [4, 6, 10, 12],
+        [2, 4, 5, 6, 10, 11, 12]
+    ];
+    
+    // 填充脉冲星图案
+    for (let i = 0; i < pulsar.length; i++) {
+        for (let j = 0; j < pulsar[i].length; j++) {
+            grid[centerX + i][centerY + pulsar[i][j]] = 1;
+            grid[centerX + pulsar[i][j]][centerY + i] = 1;
+        }
+    }
+    
     renderGame();
 }
