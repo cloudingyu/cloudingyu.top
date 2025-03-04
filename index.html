@@ -1,47 +1,28 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>康威生命游戏 (100×100)</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <title>CloudingYu - Cyberpunk Portal</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>康威生命游戏 (100×100)</h1>
-    
-    <div class="game-wrapper">
-        <div id="game-container"></div>
-        <div class="performance-info" id="performance-info">FPS: 0 | 网格大小: 100x100</div>
-        <div class="controls">
-            <button id="random-button">随机初始化</button>
-            <button id="start-button">开始游戏</button>
-            <button id="stop-button" disabled>停止游戏</button>
-            <button id="reset-button">重置</button>
+    <div class="container">
+        <canvas id="matrixCanvas"></canvas>
+        <div class="neon-grid"></div>
+        <div class="tech-lines"></div>
+        <div class="data-stream"></div>
+        <div class="hologram"></div>
+        <div class="particles"></div>
+        <div class="cyber-elements">
+            <div class="circle"></div>
+            <div class="hexagon"></div>
+            <div class="cube"></div>
         </div>
-        <div class="pattern-buttons">
-            <button id="glider-button">滑翔机</button>
-            <button id="pulsar-button">脉冲星</button>
-            <button id="walker-button">随机行走器</button>
-        </div>
+        <div class="glitch-effect"></div>
+        <div class="overlay"></div>
     </div>
     
-    <div class="instructions">
-        <p>康威生命游戏规则：</p>
-        <ul>
-            <li>存活的细胞周围有2-3个存活的邻居时继续存活，否则死亡</li>
-            <li>死亡的细胞周围恰好有3个存活的邻居时复活</li>
-        </ul>
-        <p>操作说明：</p>
-        <ul>
-            <li>点击网格可以切换细胞的生死状态</li>
-            <li>空格键：开始/停止游戏</li>
-            <li>R键：随机初始化</li>
-            <li>C键：重置网格</li>
-            <li>G键：添加滑翔机</li>
-            <li>P键：添加脉冲星</li>
-            <li>W键：添加随机行走器</li>
-        </ul>
-    </div>
-    <script src="js/game.js"></script>
+    <script src="js/script.js"></script>
 </body>
 </html>
