@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>北京时间时钟</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #05eee6;
+        }
+        #clock {
+            font-size: 48px;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div id="clock">Loading...</div>
+    <script>
+        function updateClock() {
+            const options = { 
+                timeZone: 'Asia/Shanghai', 
+                hour: '2-digit', 
+                minute: '2-digit', 
+                second: '2-digit', 
+                hour12: false 
+            };
+            const now = new Date().toLocaleTimeString('en-US', options);
+            document.getElementById('clock').textContent = now;
+        }
+        updateClock();
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
