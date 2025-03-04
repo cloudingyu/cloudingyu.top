@@ -2,39 +2,27 @@
 <html lang="zh-cn">
 <head>
     <meta charset="UTF-8">
-    <title>北京时间时钟</title>
-    <style>
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #05eee6;
-        }
-        #clock {
-            font-size: 48px;
-            font-family: 'Arial', sans-serif;
-            color: #333;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>康威生命游戏</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-    <div id="clock">Loading...</div>
-    <script>
-        function updateClock() {
-            const options = { 
-                timeZone: 'Asia/Shanghai', 
-                hour: '2-digit', 
-                minute: '2-digit', 
-                second: '2-digit', 
-                hour12: false 
-            };
-            const now = new Date().toLocaleTimeString('en-US', options);
-            document.getElementById('clock').textContent = now;
-        }
-        updateClock();
-        setInterval(updateClock, 1000);
-    </script>
+    <h1>康威生命游戏</h1>
+    <div id="game-container"></div>
+    <div class="controls">
+        <button id="random-button">随机初始化</button>
+        <button id="start-button">开始游戏</button>
+        <button id="stop-button" disabled>停止游戏</button>
+        <button id="reset-button">重置</button>
+    </div>
+    <div class="instructions">
+        <p>康威生命游戏规则：</p>
+        <ul>
+            <li>存活的细胞周围有2-3个存活的邻居时继续存活，否则死亡</li>
+            <li>死亡的细胞周围恰好有3个存活的邻居时复活</li>
+        </ul>
+        <p>点击网格可以切换细胞的生死状态</p>
+    </div>
+    <script src="js/game.js"></script>
 </body>
 </html>
