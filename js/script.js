@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', () => {
     canvas.height = window.innerHeight;
     
     // 定义固定的游戏逻辑大小（2000×2000）
-    const gameWidth = 2000;
-    const gameHeight = 2000;
+    const gameWidth = 5000;
+    const gameHeight = 5000;
     
     // 定义方格大小和数组
     const cellSize = 10;
