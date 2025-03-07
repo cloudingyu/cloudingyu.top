@@ -2,29 +2,14 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>动画展示</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Life Game</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <div class="animation-scene">
-            <div class="floating-circle" id="main-circle"></div>
-            <div class="particles-container" id="particles"></div>
-            <div class="orbit-container">
-                <div class="orbit">
-                    <div class="satellite" id="satellite-1"></div>
-                </div>
-            </div>
-            <div class="pulse-circles">
-                <div class="pulse-circle" id="pulse-1"></div>
-                <div class="pulse-circle" id="pulse-2"></div>
-                <div class="pulse-circle" id="pulse-3"></div>
-            </div>
-            <div class="lines-container" id="lines"></div>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
+    <canvas id="gameCanvas"></canvas>
+    <script src="js/script.js"></script>
 </body>
 </html>

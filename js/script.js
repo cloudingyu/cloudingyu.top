@@ -2,11 +2,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('gameCanvas');
     const ctx = canvas.getContext('2d');
     
-    // 设置画布大小为窗口大小
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
+    // 设置画布尺寸 - 使用clientWidth和clientHeight确保准确大小
+    function resizeCanvas() {
+        canvas.width = document.documentElement.clientWidth;
+        canvas.height = document.documentElement.clientHeight;
+    }
     
-    // 定义固定的游戏逻辑大小（2000×2000）
+    resizeCanvas();
+    
+    // 定义固定的游戏逻辑大小
     const gameWidth = 5000;
     const gameHeight = 5000;
     
@@ -142,23 +146,67 @@ document.addEventListener('DOMContentLoaded', () => {
         isDragging = false;
     });
     
-    // 窗口大小改变事件
+    // 窗口大小改变事件 - 改进视图处理
     window.addEventListener('resize', () => {
-        // 记住当前视图中心点
-        const centerX = viewOffsetX + canvas.width / 2;
-        const centerY = viewOffsetY + canvas.height / 2;
+        // 保存视图的当前中心点
+        const viewCenterX = viewOffsetX + (canvas.width / 2);
+        const viewCenterY = viewOffsetY + (canvas.height / 2);
         
         // 调整画布大小
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        resizeCanvas();
         
-        // 重新计算偏移以保持中心点不变
-        viewOffsetX = centerX - canvas.width / 2;
-        viewOffsetY = centerY - canvas.height / 2;
+        // 重新计算视图偏移，以保持视图中心不变
+        viewOffsetX = viewCenterX - (canvas.width / 2);
+        viewOffsetY = viewCenterY - (canvas.height / 2);
+        
+        // 确保不会超出游戏边界
         clampOffset();
         
+        // 立即重新渲染以避免闪烁
         render();
     });
+    
+    // 更完善的触控阻止
+    function preventDefault(e) {
+        e.preventDefault();
+    }
+    
+    // 阻止整个文档的默认触摸行为
+    document.addEventListener('touchstart', preventDefault, { passive: false });
+    document.addEventListener('touchmove', preventDefault, { passive: false });
+    
+    // 阻止文档上的默认鼠标滚轮行为
+    document.addEventListener('wheel', preventDefault, { passive: false });
+    
+    // 替换掉旧的触摸事件处理代码，使用更简洁的代码
+    canvas.addEventListener('touchstart', (event) => {
+        event.preventDefault();
+        isDragging = true;
+        dragStartX = event.touches[0].clientX;
+        dragStartY = event.touches[0].clientY;
+    }, { passive: false });
+    
+    canvas.addEventListener('touchmove', (event) => {
+        event.preventDefault();
+        if (isDragging) {
+            const dx = event.touches[0].clientX - dragStartX;
+            const dy = event.touches[0].clientY - dragStartY;
+            
+            viewOffsetX -= dx;
+            viewOffsetY -= dy;
+            clampOffset();
+            
+            dragStartX = event.touches[0].clientX;
+            dragStartY = event.touches[0].clientY;
+            
+            render();
+        }
+    }, { passive: false });
+    
+    canvas.addEventListener('touchend', (event) => {
+        event.preventDefault();
+        isDragging = false;
+    }, { passive: false });
     
     // 开始游戏
     render();

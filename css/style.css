@@ -4,18 +4,21 @@
     box-sizing: border-box;
 }
 
-body {
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
     background-color: #000;
-    overflow: hidden;
+    top: 0;
+    left: 0;
 }
 
 #gameCanvas {
     display: block;
     background-color: #000;
-    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    cursor: move; /* 指示画布可拖动 */
 }
