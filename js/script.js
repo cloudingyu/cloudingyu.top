@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const gameHeight = 5000;
     
     // 定义方格大小和数组
-    const cellSize = 10;
+    const cellSize = 2;
     const cols = Math.ceil(gameWidth / cellSize);
     const rows = Math.ceil(gameHeight / cellSize);
     
