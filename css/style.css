@@ -1,3 +1,35 @@
+/* 基础样式 */
+:root {
+    /* 颜色方案 */
+    --primary-color: #8effec;    /* 顶面颜色 */
+    --secondary-color: #6aabed;  /* 左面颜色 */
+    --tertiary-color: #0919c6;   /* 右面颜色 */
+    --border-color: #ffffff;        /* 边框颜色 */
+    --background-color: #f0f0f0; /* 背景颜色 */
+}
+
 body {
-    background-color: rgba(204, 203, 203, 0.969);
+    background-color: #f7f7f7;
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* 游戏容器 */
+#game-container {
+    position: relative;
+    margin: 0 auto;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+/* 游戏画布 */
+canvas {
+    display: block;
+    background-color: var(--background-color);
 }
